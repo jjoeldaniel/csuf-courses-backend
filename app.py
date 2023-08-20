@@ -10,6 +10,11 @@ async def root():
     return {"message": "Hello World"}
 
 
+@app.get("/api/ping/")
+async def ping():
+    return {"message": "pong"}
+
+
 @app.get("/api/search/")
 async def get_course(course: str):
     try:

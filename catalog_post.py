@@ -41,4 +41,10 @@ class CatalogPost:
         self.description = course_content[0]
 
         self.prereqs, self.coreqs = _extract_prereqs_and_coreqs(course_content)
+
+        if self.prereqs:
+            self.description = self.description.split("Prerequisite")[0].strip()
+        if self.coreqs:
+            self.description = self.description.split("Corequisite")[0].strip()
+
         self.course = Course(self.title, self.description, self.prereqs, self.coreqs)

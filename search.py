@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-from course import Course
+from course import Course, CourseNotFound
 
 BASE_URL = "https://catalog.fullerton.edu"
 
@@ -23,7 +23,6 @@ def search(query: str) -> Course:
     soup = BeautifulSoup(requests.get(URL).content, "html.parser")
 
     if (COURSE_URL := soup.find("a", {"aria-expanded": "false"})["href"]) is None:
-        print("Course not found")
-        exit()
+        raise CourseNotFound(f"Course {course} not found")
 
     return Course(f"{BASE_URL}/{COURSE_URL}")

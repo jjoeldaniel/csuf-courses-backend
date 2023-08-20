@@ -2,6 +2,10 @@ from bs4 import BeautifulSoup
 import requests
 
 
+class CourseNotFound(Exception):
+    pass
+
+
 def _extract_prereqs_and_coreqs(course_content):
     prereqs = None
     coreqs = None
@@ -33,6 +37,10 @@ class Course:
         soup = BeautifulSoup(requests.get(url).content, "html.parser")
 
         content = soup.find("td", {"class": "block_content"})
+
+        if content is None:
+            raise CourseNotFound(f"Course {url} not found")
+
         self.title = content.find("h1").text
 
         # get text before first line break
@@ -63,3 +71,12 @@ class Course:
             f"Prerequisites: {self.prereqs}\n"
             f"Corequisites: {self.coreqs}"
         )
+
+    def json(self) -> dict:
+        return {
+            "title": self.title,
+            "description": self.description,
+            "prerequisites": self.prereqs,
+            "corequisites": self.coreqs,
+            "url": self.url,
+        }

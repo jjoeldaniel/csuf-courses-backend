@@ -10,8 +10,8 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.get("/course/{course}")
-async def get_course(request: Request, course: str):
+@app.get("/api/search/")
+async def get_course(course: str):
     try:
         course_model: Course = search(course)
     except CourseNotFound:

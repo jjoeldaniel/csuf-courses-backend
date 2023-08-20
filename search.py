@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-from catalog_post import CatalogPost
 from course import Course
 
 BASE_URL = "https://catalog.fullerton.edu"
@@ -27,6 +26,4 @@ def search(query: str) -> Course:
         print("Course not found")
         exit()
 
-    RESULT_URL = f"{BASE_URL}/{COURSE_URL}"
-    catalog_post = CatalogPost(RESULT_URL)
-    return catalog_post.course
+    return Course(f"{BASE_URL}/{COURSE_URL}")
